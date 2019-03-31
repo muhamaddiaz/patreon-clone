@@ -6,6 +6,10 @@ import PatreonBenefits from '../assets/img/patreon-exclusivebenefits.png'
 import PatreonRae from '../assets/img/issa-rae.png'
 
 export class Home extends Component {
+  state = {
+    linkVideoHover: 'red'
+  }
+
   getStyle = {
     fontHello: {
       fontWeight: '900',
@@ -26,6 +30,19 @@ export class Home extends Component {
     cardSmoke: {
       backgroundColor: 'whitesmoke',
       border: 'none'
+    },
+    backgroundVideoImage: {
+      backgroundImage: 'url(https://c5.patreon.com/external/marketing/vertical_images/video-v4-issarae.jpg)',
+      width: '100%',
+      backgroundPosition: 'center center',
+      backgroundSize: 'cover'
+    },
+    videoImageLink: {
+      display: 'block',
+      padding: '5px',
+      fontSize: '1.5rem',
+      fontWeight: '700',
+      color: 'black'
     }
   }
 
@@ -47,6 +64,7 @@ export class Home extends Component {
           <CreatorCards style={this.getStyle} />
         </div>
         <MembershipBenefits />
+        <WhoUse getStyle={this.getStyle} />
       </React.Fragment>
     )
   }
@@ -131,6 +149,30 @@ function MembershipBenefits() {
               <p>Give your fans what they want: a peek behind the scenes, extras they can’t get elsewhere, and the pride of fueling what you do</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WhoUse(props) {
+  return (
+    <div className="container mt-5 mb-5 pb-5">
+      <div className="text-center pt-5 pb-5">
+        <h1><b>Who uses Patreon</b></h1>
+      </div>
+      <div className="row">
+        <div className="col-md-6" style={props.getStyle.backgroundVideoImage}>
+
+        </div>
+        <div className="col-md-6">
+          <a href="/" style={props.getStyle.videoImageLink}>Podcaster</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Video Creators</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Musicians</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Visual Artists</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Communities</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Writers & Journalists</a>
+          <a href="/" style={props.getStyle.videoImageLink}>Creators-of-all-kinds</a>
         </div>
       </div>
     </div>
