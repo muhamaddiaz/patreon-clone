@@ -40,30 +40,54 @@ export class Navbar extends Component {
           PATREON
         </div>
         <ul style={this.getStyle.navbarMenu}>
-          <li>
-            <Link style={this.getStyle.navbarItem} to="/">
-              Start my page
-            </Link>
-          </li>
-          <li>
-            <Link style={this.getStyle.navbarItem} to="/explore">
-              Explore creators
-            </Link>
-          </li>
-          <li>
-            <Link style={this.getStyle.navbarItem} to="/signup">
-              Sign up
-            </Link>
-          </li>
-          <li>
-            <Link style={this.getStyle.navbarItem} to="/login">
-              Log in
-            </Link>
-          </li>
+          {this.props.loggedIn ? (
+            <LoggedInLink getStyle={this.getStyle} />
+          ) : (
+            <NotLoggedInLink getStyle={this.getStyle} />
+          )}
         </ul>
       </nav>
     )
   }
+}
+
+function NotLoggedInLink(props) {
+  return (
+    <React.Fragment>
+      <NavLink to="/" getStyle={props.getStyle}>
+        Start my page
+      </NavLink>
+      <NavLink to="/explore" getStyle={props.getStyle}>
+        Explore
+      </NavLink>
+      <NavLink to="/signup" getStyle={props.getStyle}>
+        Sign up
+      </NavLink>
+      <NavLink to="/login" getStyle={props.getStyle}>
+        Log in
+      </NavLink>
+    </React.Fragment>
+  )
+}
+
+function LoggedInLink(props) {
+  return (
+    <React.Fragment>
+      <NavLink to="/home" getStyle={props.getStyle}>
+        Home
+      </NavLink>
+    </React.Fragment>
+  )
+}
+
+function NavLink(props) {
+  return (
+    <li>
+      <Link style={props.getStyle.navbarItem} to={props.to}>
+        {props.children}
+      </Link>
+    </li>
+  )
 }
 
 export default Navbar

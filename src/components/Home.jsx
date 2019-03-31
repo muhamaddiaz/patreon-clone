@@ -113,28 +113,27 @@ function MembershipBenefits() {
           <div className="col-md-4 p-4 text-center">
             <img src={PatreonPredictable} alt=""/>
             <div className="text-center">
-              <h4>Predictable Revenue</h4>
+              <h4><b>Predictable Revenue</b></h4>
               <p>Generate predictable, recurring revenue from your work through fans who pay you monthly</p>
             </div>
           </div>
           <div className="col-md-4 p-4 text-center">
             <img src={PatreonConnection} alt=""/>
             <div className="text-center">
-              <h4>Fan Connection</h4>
+              <h4><b>Fan Connection</b></h4>
               <p>Connect with your biggest fans directly, free from the ads and algorithms that drive social media</p>
             </div>
           </div>
           <div className="col-md-4 p-4 text-center">
             <img src={PatreonBenefits} alt=""/>
             <div className="text-center">
-              <h4>Exclusive Benefits</h4>
+              <h4><b>Exclusive Benefits</b></h4>
               <p>Give your fans what they want: a peek behind the scenes, extras they can’t get elsewhere, and the pride of fueling what you do</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
   )
 }
 
