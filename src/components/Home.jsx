@@ -3,6 +3,7 @@ import PatreonHello from '../assets/img/patreon-hero-illustration.png'
 import PatreonPredictable from '../assets/img/patreon-predictablerevenue.png'
 import PatreonConnection from '../assets/img/patreon-fanconnection.png'
 import PatreonBenefits from '../assets/img/patreon-exclusivebenefits.png'
+import PatreonRae from '../assets/img/issa-rae.png'
 
 export class Home extends Component {
   getStyle = {
@@ -21,6 +22,10 @@ export class Home extends Component {
     fontCreator: {
       fontWeight: '700',
       fontSize: '2.5rem'
+    },
+    cardSmoke: {
+      backgroundColor: 'whitesmoke',
+      border: 'none'
     }
   }
 
@@ -29,19 +34,17 @@ export class Home extends Component {
       <React.Fragment>
         <div className="container pt-3">
           <div className="row pt-5">
-            <div className="col-md-6">
+            <div className="col-md-6"><br/>
               <SectionHello getStyle={this.getStyle}/>
             </div>
             <div className="col-md-6">
-              <img src={PatreonHello} alt=""/>
+              <img src={PatreonHello} alt="imagehello" style={{maxWidth: '100%'}}/>
             </div>
           </div>
           <div className="text-center mt-5">
             <h2 style={this.getStyle.fontCreator}>In the words or our creators</h2>
           </div>
-          <div className="row">
-            <CreatorCards />
-          </div>
+          <CreatorCards style={this.getStyle} />
         </div>
         <MembershipBenefits />
       </React.Fragment>
@@ -63,67 +66,75 @@ function SectionHello(props) {
 }
 
 function CreatorCards(props) {
-  function Card(props) {
-    return (
-      <React.Fragment>
-        <div className="card">
-          <p className="card-text p-4">
-            "Membership is a relationship between you and your most engaged fans — 
-            the ones that choose to go a level deeper than just following you on 
-            social media. They become paying patrons in exchange for exclusive benefits you offer."
-          </p>
-          <div className="card-footer">
-            <div className="card-text"><stron>Issa Belle</stron>, Video Creator</div>
-          </div>
-        </div>
-      </React.Fragment>
-    )
-  }
   return (
     <React.Fragment>
-      <div className="card-deck mt-5">
-        <Card />
-        <Card />
-        <Card />
+      <div className="card-deck mt-5 mb-5">
+        <Card style={props.style} />
+        <Card style={props.style} />
+        <Card style={props.style} />
       </div>
     </React.Fragment>
   )
 }
 
-function MembershipBenefits() {
+function Card(props) {
   return (
-    <div className="container mt-3 p-5">
-      <div className="text-center">
-        <h1>Why Membership?</h1>
-        <p>
-          Patreon is a creator-founded company, helping creators build membership <br/>
-          businesses that empower them to create on their own terms.
+    <div className="card">
+      <div className="card-body" style={props.style.cardSmoke}>
+        <p className="card-text p-3">
+          "Membership is a relationship between you and your most engaged fans — 
+          the ones that choose to go a level deeper than just following you on 
+          social media. They become paying patrons in exchange for exclusive benefits you offer."
         </p>
       </div>
-      <div className="row mt-5">
-        <div className="col-md-4 text-center">
-          <img src={PatreonPredictable} alt=""/>
-          <div className="text-center">
-            <h4>Predictable Revenue</h4>
-            <p>Generate predictable, recurring revenue from your work through fans who pay you monthly</p>
-          </div>
+      <div className="card-footer" style={props.style.cardSmoke}>
+        <div className="card-text p-3">
+          <img src={PatreonRae} alt="Rae" style={{width: '15%'}}/> &nbsp;
+          <strong>Issa Belle</strong>
+          , Video Creator
         </div>
-        <div className="col-md-4 text-center">
-          <img src={PatreonConnection} alt=""/>
-          <div className="text-center">
-            <h4>Fan Connection</h4>
-            <p>Connect with your biggest fans directly, free from the ads and algorithms that drive social media</p>
-          </div>
+      </div>
+    </div>
+  )
+}
+
+function MembershipBenefits() {
+  return (
+    <div style={{backgroundColor: 'whitesmoke'}}>
+      <div className="container mt-3 p-5">
+        <div className="text-center mt-5 mb-5">
+          <h1>Why Membership?</h1>
+          <p>
+            Patreon is a creator-founded company, helping creators build membership <br/>
+            businesses that empower them to create on their own terms.
+          </p>
         </div>
-        <div className="col-md-4 text-center">
-          <img src={PatreonBenefits} alt=""/>
-          <div className="text-center">
-            <h4>Exclusive Benefits</h4>
-            <p>Give your fans what they want: a peek behind the scenes, extras they can’t get elsewhere, and the pride of fueling what you do</p>
+        <div className="row mt-5">
+          <div className="col-md-4 p-4 text-center">
+            <img src={PatreonPredictable} alt=""/>
+            <div className="text-center">
+              <h4>Predictable Revenue</h4>
+              <p>Generate predictable, recurring revenue from your work through fans who pay you monthly</p>
+            </div>
+          </div>
+          <div className="col-md-4 p-4 text-center">
+            <img src={PatreonConnection} alt=""/>
+            <div className="text-center">
+              <h4>Fan Connection</h4>
+              <p>Connect with your biggest fans directly, free from the ads and algorithms that drive social media</p>
+            </div>
+          </div>
+          <div className="col-md-4 p-4 text-center">
+            <img src={PatreonBenefits} alt=""/>
+            <div className="text-center">
+              <h4>Exclusive Benefits</h4>
+              <p>Give your fans what they want: a peek behind the scenes, extras they can’t get elsewhere, and the pride of fueling what you do</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    
   )
 }
 

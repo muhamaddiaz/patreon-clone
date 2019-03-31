@@ -13,7 +13,8 @@ export class Navbar extends Component {
     },
     navbarBrand: {
       padding: '20px',
-      letterSpacing: '4px'
+      letterSpacing: '2px',
+      fontWeight: '700',
       // backgroundColor: 'red'
     },
     navbarMenu: {
