@@ -4,6 +4,10 @@ import PatreonPredictable from '../assets/img/patreon-predictablerevenue.png'
 import PatreonConnection from '../assets/img/patreon-fanconnection.png'
 import PatreonBenefits from '../assets/img/patreon-exclusivebenefits.png'
 import PatreonRae from '../assets/img/issa-rae.png'
+import Step1 from '../assets/img/step1.svg'
+import Step2 from '../assets/img/step2.svg'
+import Step3 from '../assets/img/step3-top.svg'
+import Step3Bottom from '../assets/img/step3-bottom.svg'
 
 export class Home extends Component {
   state = {
@@ -65,6 +69,7 @@ export class Home extends Component {
         </div>
         <MembershipBenefits />
         <WhoUse getStyle={this.getStyle} />
+        <HowDoes />
       </React.Fragment>
     )
   }
@@ -162,9 +167,7 @@ function WhoUse(props) {
         <h1><b>Who uses Patreon</b></h1>
       </div>
       <div className="row">
-        <div className="col-md-6" style={props.getStyle.backgroundVideoImage}>
-
-        </div>
+        <div className="col-md-6" style={props.getStyle.backgroundVideoImage}></div>
         <div className="col-md-6">
           <a href="/" style={props.getStyle.videoImageLink}>Podcaster</a>
           <a href="/" style={props.getStyle.videoImageLink}>Video Creators</a>
@@ -176,6 +179,104 @@ function WhoUse(props) {
         </div>
       </div>
     </div>
+  )
+}
+
+function HowDoes(props) {
+  return (
+    <div style={{backgroundColor: 'whitesmoke'}} className="p-5">
+      <div className="container">
+        <div className="text-center pt-5">
+          <h1>How does it work?</h1>
+          <div className="row">
+            <div className="col-md-2"></div>
+            <div className="col-md-8 mt-4">
+              <p>Membership is a relationship between you and your most engaged fans 
+                — the ones that choose to go a level deeper than just following you 
+                on social media. They become paying patrons in exchange for exclusive 
+                benefits you offer.
+              </p>
+            </div>
+          </div>
+        </div>
+        <Step />
+      </div>
+    </div>
+  )
+}
+
+function Step(props) {
+
+  const stepStyle = {
+    stepText: {
+      padding: '40px',
+      marginTop: '10px'
+    }
+  }
+
+  function LeftStep(props) {
+    return (
+      <div className="row mt-4 mb-4">
+        <div className="col-md-6 text-center">
+          <img src={props.image} alt="step_1_image" style={{maxWidth: '100%'}}/>
+          {props.image2 ? (
+            <img src={props.image2} alt="second_image" />
+          ) : (
+            null
+          )}
+        </div>
+        <div className="col-md-6">
+          <div style={stepStyle.stepText}>
+            {props.children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  function RightStep(props) {
+    return (
+      <div className="row mt-4 mb-4">
+        <div className="col-md-6">
+          <div style={stepStyle.stepText}>
+            {props.children}
+          </div>
+        </div>
+        <div className="col-md-6 text-center">
+          <img src={props.image} alt="step_1_image" style={{maxWidth: '100%'}}/>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <React.Fragment>
+      <LeftStep image={Step1}>
+        <React.Fragment>
+          <p>STEP 1</p>
+          <h2><b>Tell your fans you're launching on Patreon.</b></h2>
+          <p>Reach out to fans on your social channels to find out more about 
+            what kind of membership benefits they’d be interested in.
+          </p>
+        </React.Fragment>
+      </LeftStep>
+      <RightStep image={Step2}>
+          <p>STEP  2</p>
+          <h2><b>Set up your page and membership tiers, and launch!</b></h2>
+          <p>Each tier has different benefits for different levels of engagement 
+            with you. When you’re ready, launch your membership and tell your fans.
+          </p>
+      </RightStep>
+      <LeftStep image={Step3} image2={Step3Bottom}>
+        <React.Fragment>
+          <p>STEP 3</p>
+          <h2><b>Develop relationships by taking them along on the journey.</b></h2>
+          <p>Share updates, deliver benefits, and build community. Keep up the momentum 
+            by sharing on your social channels to bring more fans to Patreon.
+          </p>
+        </React.Fragment>
+      </LeftStep>
+    </React.Fragment>
   )
 }
 
