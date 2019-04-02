@@ -11,7 +11,11 @@ import Step3Bottom from '../assets/img/step3-bottom.svg'
 
 export class Home extends Component {
   state = {
-    linkVideoHover: 'red'
+    fontCreator: {
+      color: 'blue',
+      fontWeight: '700',
+      fontSize: '2.5rem'
+    }
   }
 
   getStyle = {
@@ -50,6 +54,17 @@ export class Home extends Component {
     }
   }
 
+  onMouseOver = this.onMouseOver.bind(this)
+
+  onMouseOver() {
+    this.setState((state) => ({
+      fontCreator: {
+        ...state.fontCreator,
+        color: 'red'
+      }
+    }))
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -63,7 +78,7 @@ export class Home extends Component {
             </div>
           </div>
           <div className="text-center mt-5">
-            <h2 style={this.getStyle.fontCreator}>In the words or our creators</h2>
+            <h2 style={this.state.fontCreator} onMouseEnter={this.onMouseOver}>In the words or our creators</h2>
           </div>
           <CreatorCards style={this.getStyle} />
         </div>
