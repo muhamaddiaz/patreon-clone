@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 
+import styled from 'styled-components'
+
 
 export class Navbar extends Component {
   getStyle = {
@@ -82,12 +84,23 @@ function LoggedInLink(props) {
   )
 }
 
+const Linked = styled(Link)`
+  textDecoration: none;
+  display: inline-block;
+  padding: 20px;
+  color: black;
+  &:hover {
+    color: black;
+    text-decoration: underline;
+  }
+`
+
 function NavLink(props) {
   return (
     <li>
-      <Link style={props.getStyle.navbarItem} to={props.to}>
+      <Linked  to={props.to}>
         {props.children}
-      </Link>
+      </Linked>
     </li>
   )
 }
