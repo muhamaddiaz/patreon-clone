@@ -10,13 +10,13 @@ import Step3 from '../assets/img/step3-top.svg'
 import Step3Bottom from '../assets/img/step3-bottom.svg'
 
 export class Home extends Component {
-  state = {
-    fontCreator: {
-      color: 'blue',
-      fontWeight: '700',
-      fontSize: '2.5rem'
-    }
-  }
+  // state = {
+  //   fontCreator: {
+  //     color: 'blue',
+  //     fontWeight: '700',
+  //     fontSize: '2.5rem'
+  //   }
+  // }
 
   getStyle = {
     fontHello: {
@@ -54,21 +54,21 @@ export class Home extends Component {
     }
   }
 
-  onMouseOver = this.onMouseOver.bind(this)
+  // onMouseOver = this.onMouseOver.bind(this)
 
-  onMouseOver() {
-    this.setState((state) => ({
-      fontCreator: {
-        ...state.fontCreator,
-        color: 'red'
-      }
-    }))
-  }
+  // onMouseOver() {
+  //   this.setState((state) => ({
+  //     fontCreator: {
+  //       ...state.fontCreator,
+  //       color: 'red'
+  //     }
+  //   }))
+  // }
 
   render() {
     return (
       <React.Fragment>
-        <div className="container pt-3">
+        <div className="container pt-5">
           <div className="row pt-5">
             <div className="col-md-6"><br/>
               <SectionHello getStyle={this.getStyle}/>
@@ -78,7 +78,7 @@ export class Home extends Component {
             </div>
           </div>
           <div className="text-center mt-5">
-            <h2 style={this.state.fontCreator} onMouseEnter={this.onMouseOver}>In the words or our creators</h2>
+            <h2 style={this.getStyle.fontCreator} onMouseEnter={this.onMouseOver}>In the words or our creators</h2>
           </div>
           <CreatorCards style={this.getStyle} />
         </div>

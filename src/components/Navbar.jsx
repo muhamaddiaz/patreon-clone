@@ -5,11 +5,13 @@ import {Link} from 'react-router-dom'
 export class Navbar extends Component {
   getStyle = {
     navbar: {
+      position: 'fixed',
       display: "flex",
       width: "100%",
       justifyContent: "space-between",
-      boxShadow: '0px 0px 2px grey'
-      // backgroundColor: 'blue'
+      boxShadow: '0px 0px 2px grey',
+      zIndex: 100,
+      backgroundColor: 'white'
     },
     navbarBrand: {
       padding: '20px',
