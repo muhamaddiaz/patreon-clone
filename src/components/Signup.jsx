@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import PatreonHello from '../assets/img/step3-top.svg'
+import PatreonTop from '../assets/img/step3-top.svg'
+import PatreonBottom from '../assets/img/step3-bottom.svg'
 
 
 const Wrapper = styled.div`
@@ -99,7 +100,8 @@ export default function Signup() {
         </BoxWrapper>
         <BoxWrapper>
           <div className="text-center">
-            <ImageLogin src={PatreonHello} />
+            <ImageLogin src={PatreonTop} />
+            <ImageLogin src={PatreonBottom} />
           </div>
         </BoxWrapper>
       </Wrapper>

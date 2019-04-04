@@ -9,6 +9,8 @@ import Step2 from '../assets/img/step2.svg'
 import Step3 from '../assets/img/step3-top.svg'
 import Step3Bottom from '../assets/img/step3-bottom.svg'
 
+import Footer from './Footer'
+
 export class Home extends Component {
   // state = {
   //   fontCreator: {
@@ -85,6 +87,7 @@ export class Home extends Component {
         <MembershipBenefits />
         <WhoUse getStyle={this.getStyle} />
         <HowDoes />
+        <Footer />
       </React.Fragment>
     )
   }
