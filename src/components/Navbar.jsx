@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import {FaSearch, FaCommentDots} from 'react-icons/fa'
+import PatreonRae from '../assets/img/issa-rae.png'
+
 
 import styled from 'styled-components'
 
@@ -75,7 +78,13 @@ function LoggedInLink(props) {
   return (
     <React.Fragment>
       <NavLink to="/home" getStyle={props.getStyle}>
-        Home
+        <FaCommentDots />
+      </NavLink>
+      <NavLink to="/home" getStyle={props.getStyle}>
+        <FaSearch />
+      </NavLink>
+      <NavLink to="/home" getStyle={props.getStyle}>
+        <UserProfile />
       </NavLink>
     </React.Fragment>
   )
@@ -95,11 +104,17 @@ const Linked = styled(Link)`
 function NavLink(props) {
   return (
     <li>
-      <Linked  to={props.to}>
+      <Linked to={props.to}>
         {props.children}
       </Linked>
     </li>
   )
+}
+
+function UserProfile(props) {
+  return (
+    <img src={PatreonRae} className="img-circle" style={{'max-width': '30%'}} />
+  );
 }
 
 export default Navbar
