@@ -113,7 +113,7 @@ function NavLink(props) {
 
 function UserProfile(props) {
   return (
-    <img src={PatreonRae} className="img-circle" style={{'max-width': '30%'}} />
+    <img src={PatreonRae} alt="profile" className="img-circle" style={{'max-width': '30%'}} />
   );
 }
 
