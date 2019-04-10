@@ -10,11 +10,31 @@ export class Frontpage extends Component {
   render() {
     return (
       <div>
-        <Route path="/" exact component={Home} />
-        <Route path="/explore" component={Explore} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route 
+          path="/" 
+          exact component={Home} 
+        />
+        <Route 
+          path="/explore" 
+          component={Explore} 
+        />
+        <Route 
+          path="/signup" 
+          component={Signup} 
+        />
+        <Route 
+          path="/login" 
+          render={() => (
+            <Login 
+              cookies={this.props.cookies}
+              handleLogin={this.props.handleLogin}
+            />
+          )} 
+        />
+        <Route 
+          path="/dashboard" 
+          component={Dashboard} 
+        />
       </div>
     )
   }

@@ -53,43 +53,60 @@ const LoginComponent = ({children}) => (
   </LoginText>
 )
 
-export default function Login() {
-  return (
-    <div className="container">
-      <Wrapper>
-        <BoxWrapper>
-          <LoginComponent>
-            <h1>Login</h1>
-            <p>Welcome to patreon</p>
-            <form action="">
-              <div style={{width: '80%'}} className="text-center">
-                <Input placeholder="Username" />
-                <Input type="password" placeholder="Password" />
-                <div className="text-right m-3">
-                  <Link 
-                    to='/signup' 
-                    className="text-danger"
-                    style={{textDecoration: 'underline'}}
-                    >
-                    Forgot Password?
-                  </Link>
+class Login extends React.Component {
+  state = {
+    username: '',
+    password: ''
+  }
+
+  handleChange = (e) => {
+    let target = e.target.name;
+    this.setState({
+      [target]: e.target.value
+    })
+    console.log(this.state.username)
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <Wrapper>
+          <BoxWrapper>
+            <LoginComponent>
+              <h1>Login</h1>
+              <p>Welcome to patreon</p>
+              <form action="" onSubmit={this.props.handleLogin.bind(this, this.state)}>
+                <div style={{width: '80%'}} className="text-center">
+                  <Input placeholder="Username" name="username" onChange={this.handleChange.bind(this)} required />
+                  <Input type="password" name="password" placeholder="Password" onChange={this.handleChange.bind(this)} required />
+                  <div className="text-right m-3">
+                    <Link 
+                      to='/signup' 
+                      className="text-danger"
+                      style={{textDecoration: 'underline'}}
+                      >
+                      Forgot Password?
+                    </Link>
+                  </div>
+                  <button 
+                    type="submit" 
+                    className="btn btn-danger mt-3" 
+                    style={{width: '100%', borderRadius: '20px', padding: '10px'}}>
+                    Login
+                  </button>
                 </div>
-                <button 
-                  type="submit" 
-                  className="btn btn-danger mt-3" 
-                  style={{width: '100%', borderRadius: '20px', padding: '10px'}}>
-                  Login
-                </button>
-              </div>
-            </form>
-          </LoginComponent>
-        </BoxWrapper>
-        <BoxWrapper>
-          <div className="text-center">
-            <ImageLogin src={PatreonHello} />
-          </div>
-        </BoxWrapper>
-      </Wrapper>
-    </div>
-  )
+              </form>
+            </LoginComponent>
+          </BoxWrapper>
+          <BoxWrapper>
+            <div className="text-center">
+              <ImageLogin src={PatreonHello} />
+            </div>
+          </BoxWrapper>
+        </Wrapper>
+      </div>
+    )
+  }
 }
+
+export default Login;

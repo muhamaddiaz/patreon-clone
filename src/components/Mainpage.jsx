@@ -80,7 +80,7 @@ export class Mainpage extends Component {
                       <img src={PatreonRae} alt="profile" style={{width: '120px'}} />
                     </div>
                     <div className="col-md-10">
-                    <ProfileText>Superduperdiaz is creating programming tutorial</ProfileText> 
+                    <ProfileText>{this.props.user.username} is creating programming tutorial</ProfileText> 
                     </div>             
                   </div>
                 </Profile>
