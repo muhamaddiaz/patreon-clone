@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
+
 import PatreonHello from '../assets/img/patreon-hero-illustration.png'
 
 const Wrapper = styled.div`
