@@ -80,7 +80,7 @@ export class Mainpage extends Component {
                       <img src={PatreonRae} alt="profile" style={{width: '120px'}} />
                     </div>
                     <div className="col-md-10">
-                    <ProfileText>{this.props.user.username} is creating programming tutorial</ProfileText> 
+                    <ProfileText>{this.props.pathParam} is creating programming tutorial</ProfileText> 
                     </div>             
                   </div>
                 </Profile>
@@ -92,17 +92,17 @@ export class Mainpage extends Component {
           <div className="container d-flex justify-content-between">
             <NavMenu>
               <li>
-                <Link to="/">
+                <Link to={`/${this.props.pathParam}`}>
                   Overview
                 </Link>
               </li>
               <li>
-                <Link to="/posts">
+                <Link to={`/${this.props.pathParam}/posts`}>
                   Posts
                 </Link>
               </li>
               <li>
-                <Link to="/community">
+                <Link to={`/${this.props.pathParam}/community`}>
                   Community
                 </Link>
               </li>
@@ -115,9 +115,9 @@ export class Mainpage extends Component {
           </div>
         </Nav>
         <div className="container">
-          <Route path="/" exact component={Overview} />
-          <Route path="/posts" component={Posts} />
-          <Route path="/community" component={Community} />
+          <Route path={`/${this.props.pathParam}`} exact component={Overview} />
+          <Route path={`/${this.props.pathParam}/posts`} component={Posts} />
+          <Route path={`/${this.props.pathParam}/community`} component={Community} />
         </div>
         <Footer />
       </React.Fragment>

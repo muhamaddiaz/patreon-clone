@@ -64,7 +64,6 @@ class Login extends React.Component {
     this.setState({
       [target]: e.target.value
     })
-    console.log(this.state.username)
   }
 
   render() {

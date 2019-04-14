@@ -28,6 +28,7 @@ export class Frontpage extends Component {
             <Login 
               cookies={this.props.cookies}
               handleLogin={this.props.handleLogin}
+              loggedIn={this.props.loggedIn}
             />
           )} 
         />
