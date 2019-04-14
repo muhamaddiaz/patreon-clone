@@ -17,12 +17,12 @@ class App extends Component {
   handleLogin = ({username, password}, e) => {
     e.preventDefault();
     const {cookies} = this.props;
-    axios.post('http://localhost/patreon-api/api/auth/login', {
+    axios.post('http://localhost:8888/patreon-clone-api/api/auth/login', {
       username,
       password
     }).then(({data}) => {
       cookies.set('token', data.message.token)
-      axios.post('http://localhost/patreon-api/api/auth/decode', {
+      axios.post('http://localhost:8888/patreon-clone-api/api/auth/decode', {
         token: cookies.get('token')
       }).then(({data}) => {
         this.setState({
@@ -38,6 +38,16 @@ class App extends Component {
     })
   }
 
+  handleLogout = (e) => {
+    e.preventDefault()
+    const {cookies} = this.props
+    cookies.remove('token')
+    this.setState({
+      loggedIn: false,
+      user: {}
+    })
+  }
+
   handleRegister = (data, e) => {
     e.preventDefault()
     
@@ -47,7 +57,7 @@ class App extends Component {
     const {cookies} = this.props;
     const token = cookies.get('token');
     if(token) {
-      axios.post('http://localhost/patreon-api/api/auth/decode', {
+      axios.post('http://localhost:8888/patreon-clone-api/api/auth/decode', {
         token
       }).then(({data}) => {
         this.setState({
@@ -68,14 +78,13 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <Navbar loggedIn={this.state.loggedIn} />
+          <Navbar loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
           {this.state.loggedIn ? (
             <React.Fragment>
               <Creatorpage 
                 cookies={this.props.cookies}
                 user={this.state.user}
               />
-              {this.state.redirect ? (<Redirect to="/hello" />) : (null)}
             </React.Fragment>
           ) : (
             <Frontpage 

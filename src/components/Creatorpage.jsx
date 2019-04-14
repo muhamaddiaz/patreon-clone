@@ -8,7 +8,7 @@ export class Creatorpage extends Component {
     return (
       <div>
         <Route path="/dashboard" component={Dashboard}/>
-        <Route path="/:username" render={({match}) => (
+        <Route path="/:username" exact render={({match}) => (
           <Mainpage 
             pathParam={match.params.username} 
             cookies={this.props.cookies} 

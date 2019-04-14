@@ -50,10 +50,10 @@ export class Navbar extends Component {
         </div>
         <ul style={this.getStyle.navbarMenu}>
           {this.props.loggedIn ? (
-            <LoggedInLink getStyle={this.getStyle} />
+            <LoggedInLink getStyle={this.getStyle} handleLogout={this.props.handleLogout} />
           ) : (
             <NotLoggedInLink getStyle={this.getStyle} />
-          )}
+        )}
         </ul>
       </nav>
     )
@@ -89,7 +89,7 @@ function LoggedInLink(props) {
         <FaSearch />
       </NavLink>
       <NavLink to="/home" getStyle={props.getStyle}>
-        <UserProfile />
+        <UserProfile handleLogout={props.handleLogout}/>
       </NavLink>
     </React.Fragment>
   )
@@ -118,7 +118,7 @@ function NavLink(props) {
 
 function UserProfile(props) {
   return (
-    <img src={PatreonRae} alt="profile" className="img-circle" style={{maxWidth: '30%'}} />
+    <img src={PatreonRae} alt="profile" className="img-circle" style={{maxWidth: '30%'}} onClick={props.handleLogout}/>
   );
 }
 

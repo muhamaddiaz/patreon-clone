@@ -7,6 +7,9 @@ import Footer from './Footer'
 import Posts from './Posts'
 import Community from './Community'
 import Overview from './Overview'
+import NotFound from './Notfound'
+
+import axios from 'axios';
 
 const BackgroundCover = styled.div`
   width: 100%;
@@ -67,59 +70,83 @@ const PatreonButton = styled.button`
 `
 
 export class Mainpage extends Component {
+
+  state = {
+    isFound: false
+  }
+
+  componentDidMount() {
+    axios.get(`http://localhost:8888/patreon-clone-api/api/users/${this.props.pathParam}`)
+      .then(({data}) => {
+        this.setState({
+          isFound: true
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     return (
+
       <React.Fragment>
-        <BackgroundCover>
-          <CoverFade>
+        {this.state.isFound ? (
+          <div>
+            <BackgroundCover>
+              <CoverFade>
+                <div className="container">
+                  <Wrapper>
+                    <Profile>
+                      <div className="row">
+                        <div className="col-md-2 text-center">
+                          <img src={PatreonRae} alt="profile" style={{width: '120px'}} />
+                        </div>
+                        <div className="col-md-10">
+                        <ProfileText>{this.props.pathParam} is creating programming tutorial</ProfileText> 
+                        </div>             
+                      </div>
+                    </Profile>
+                  </Wrapper>
+                </div>   
+              </CoverFade>
+            </BackgroundCover>
+            <Nav>
+              <div className="container d-flex justify-content-between">
+                <NavMenu>
+                  <li>
+                    <Link to={`/${this.props.pathParam}`}>
+                      Overview
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${this.props.pathParam}/posts`}>
+                      Posts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${this.props.pathParam}/community`}>
+                      Community
+                    </Link>
+                  </li>
+                </NavMenu>
+                <NavMenu>
+                  <li>
+                    <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
+                  </li>
+                </NavMenu>
+              </div>
+            </Nav>
             <div className="container">
-              <Wrapper>
-                <Profile>
-                  <div className="row">
-                    <div className="col-md-2 text-center">
-                      <img src={PatreonRae} alt="profile" style={{width: '120px'}} />
-                    </div>
-                    <div className="col-md-10">
-                    <ProfileText>{this.props.pathParam} is creating programming tutorial</ProfileText> 
-                    </div>             
-                  </div>
-                </Profile>
-              </Wrapper>
-            </div>   
-          </CoverFade>
-        </BackgroundCover>
-        <Nav>
-          <div className="container d-flex justify-content-between">
-            <NavMenu>
-              <li>
-                <Link to={`/${this.props.pathParam}`}>
-                  Overview
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${this.props.pathParam}/posts`}>
-                  Posts
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${this.props.pathParam}/community`}>
-                  Community
-                </Link>
-              </li>
-            </NavMenu>
-            <NavMenu>
-              <li>
-                <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
-              </li>
-            </NavMenu>
+              <Route path={`/${this.props.pathParam}`} exact component={Overview} />
+              <Route path={`/${this.props.pathParam}/posts`} component={Posts} />
+              <Route path={`/${this.props.pathParam}/community`} component={Community} />
+            </div>
+            <Footer />
           </div>
-        </Nav>
-        <div className="container">
-          <Route path={`/${this.props.pathParam}`} exact component={Overview} />
-          <Route path={`/${this.props.pathParam}/posts`} component={Posts} />
-          <Route path={`/${this.props.pathParam}/community`} component={Community} />
-        </div>
-        <Footer />
+        ) : (
+          <NotFound />
+        )}
       </React.Fragment>
     )
   }
