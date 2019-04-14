@@ -115,17 +115,17 @@ export class Mainpage extends Component {
               <div className="container d-flex justify-content-between">
                 <NavMenu>
                   <li>
-                    <Link to={`/${this.props.pathParam}`}>
+                    <Link to={`/users/${this.props.pathParam}`}>
                       Overview
                     </Link>
                   </li>
                   <li>
-                    <Link to={`/${this.props.pathParam}/posts`}>
+                    <Link to={`/users/${this.props.pathParam}/posts`}>
                       Posts
                     </Link>
                   </li>
                   <li>
-                    <Link to={`/${this.props.pathParam}/community`}>
+                    <Link to={`/users/${this.props.pathParam}/community`}>
                       Community
                     </Link>
                   </li>
@@ -138,14 +138,14 @@ export class Mainpage extends Component {
               </div>
             </Nav>
             <div className="container">
-              <Route path={`/${this.props.pathParam}`} exact component={Overview} />
-              <Route path={`/${this.props.pathParam}/posts`} component={Posts} />
-              <Route path={`/${this.props.pathParam}/community`} component={Community} />
+              <Route path={`/users/${this.props.pathParam}`} exact component={Overview} />
+              <Route path={`/users/${this.props.pathParam}/posts`} component={Posts} />
+              <Route path={`/users/${this.props.pathParam}/community`} component={Community} />
             </div>
             <Footer />
           </div>
         ) : (
-          <NotFound />
+          <NotFound message="User not found" />
         )}
       </React.Fragment>
     )

@@ -21,7 +21,7 @@ export class Notfound extends Component {
       <FlexContainer>
           <FlexItem>
               <h1>404 Error</h1>
-              <h3>Users Not Found</h3>
+              <h3>{this.props.message}</h3>
           </FlexItem>
       </FlexContainer>
     )

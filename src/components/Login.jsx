@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Route, Redirect} from 'react-router-dom'
 import styled from 'styled-components'
 
 
@@ -68,42 +68,49 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <Wrapper>
-          <BoxWrapper>
-            <LoginComponent>
-              <h1>Login</h1>
-              <p>Welcome to patreon</p>
-              <form action="" onSubmit={this.props.handleLogin.bind(this, this.state)}>
-                <div style={{width: '80%'}} className="text-center">
-                  <Input placeholder="Username" name="username" onChange={this.handleChange.bind(this)} required />
-                  <Input type="password" name="password" placeholder="Password" onChange={this.handleChange.bind(this)} required />
-                  <div className="text-right m-3">
-                    <Link 
-                      to='/signup' 
-                      className="text-danger"
-                      style={{textDecoration: 'underline'}}
-                      >
-                      Forgot Password?
-                    </Link>
-                  </div>
-                  <button 
-                    type="submit" 
-                    className="btn btn-danger mt-3" 
-                    style={{width: '100%', borderRadius: '20px', padding: '10px'}}>
-                    Login
-                  </button>
+      <Route exact path="/login" render={() => (
+        this.props.loggedIn ? (
+          <Redirect to={`/users/${this.props.user.username}`} />
+        ) : (
+          <div className="container">
+            <Wrapper>
+              <BoxWrapper>
+                <LoginComponent>
+                  <h1>Login</h1>
+                  <p>Welcome to patreon</p>
+                  <form action="" onSubmit={this.props.handleLogin.bind(this, this.state)}>
+                    <div style={{width: '80%'}} className="text-center">
+                      <Input placeholder="Username" name="username" onChange={this.handleChange.bind(this)} required />
+                      <Input type="password" name="password" placeholder="Password" onChange={this.handleChange.bind(this)} required />
+                      <div className="text-right m-3">
+                        <Link 
+                          to='/signup' 
+                          className="text-danger"
+                          style={{textDecoration: 'underline'}}
+                          >
+                          Forgot Password?
+                        </Link>
+                      </div>
+                      <button 
+                        type="submit" 
+                        className="btn btn-danger mt-3" 
+                        style={{width: '100%', borderRadius: '20px', padding: '10px'}}>
+                        Login
+                      </button>
+                    </div>
+                  </form>
+                </LoginComponent>
+              </BoxWrapper>
+              <BoxWrapper>
+                <div className="text-center">
+                  <ImageLogin src={PatreonHello} />
                 </div>
-              </form>
-            </LoginComponent>
-          </BoxWrapper>
-          <BoxWrapper>
-            <div className="text-center">
-              <ImageLogin src={PatreonHello} />
-            </div>
-          </BoxWrapper>
-        </Wrapper>
-      </div>
+              </BoxWrapper>
+            </Wrapper>
+          </div>
+        )
+      )}/>
+      
     )
   }
 }

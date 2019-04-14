@@ -82,7 +82,7 @@ class Signup extends React.Component {
               <div className="m-5"></div>
               <h1>Signup</h1>
               <p>Join with patreon</p>
-              <form action="">
+              <form action="" onSubmit={this.props.handleRegister.bind(this, this.state)}>
                 <div style={{width: '80%'}} className="text-left">
                   <span>
                     <label htmlFor="">Your name</label>

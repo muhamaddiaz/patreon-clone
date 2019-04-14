@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Frontpage from './components/Frontpage';
 import Creatorpage from './components/Creatorpage';
@@ -48,9 +48,30 @@ class App extends Component {
     })
   }
 
-  handleRegister = (data, e) => {
+  handleRegister = ({full_name, username, email, password}, e) => {
     e.preventDefault()
-    
+    const {cookies} = this.props;
+    axios.post('http://localhost:8888/patreon-clone-api/api/auth/register', {
+      full_name,
+      username,
+      email,
+      password
+    }).then(({data}) => {
+      cookies.set('token', data.message.token)
+      axios.post('http://localhost:8888/patreon-clone-api/api/auth/decode', {
+        token: cookies.get('token')
+      }).then(({data}) => {
+        this.setState({
+          loggedIn: true,
+          user: data.message,
+          redirect: true
+        })
+      }).catch(err => {
+        console.log("Error: " + err);
+      })
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   componentDidMount() {
@@ -79,20 +100,17 @@ class App extends Component {
       <Router>
         <React.Fragment>
           <Navbar loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
-          {this.state.loggedIn ? (
-            <React.Fragment>
-              <Creatorpage 
-                cookies={this.props.cookies}
-                user={this.state.user}
-              />
-            </React.Fragment>
-          ) : (
-            <Frontpage 
-              cookies={this.props.cookies}
-              handleLogin={this.handleLogin}
-              loggedIn={this.state.loggedIn}
-            />
-          )}
+          <Creatorpage 
+            cookies={this.props.cookies}
+            user={this.state.user}
+          />
+          <Frontpage 
+            cookies={this.props.cookies}
+            handleLogin={this.handleLogin}
+            handleRegister={this.handleRegister}
+            loggedIn={this.state.loggedIn}
+            user={this.state.user}
+          />
         </React.Fragment>
       </Router>
     );

@@ -1,27 +1,41 @@
 import React, { Component } from 'react'
-import {Route} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import Explore from './Explore'
 import Signup from './Signup'
 import Login from './Login'
 import Home from './Home'
-import Dashboard from './Dashboard'
+import NotFound from './Notfound'
 
 export class Frontpage extends Component {
   render() {
     return (
-      <div>
-        <Route 
-          path="/" 
-          exact component={Home} 
-        />
-        <Route 
-          path="/explore" 
-          component={Explore} 
-        />
-        <Route 
-          path="/signup" 
-          component={Signup} 
-        />
+      <Switch>
+        <Route exact path="/" render={() => (
+          this.props.loggedIn ? (
+            <Redirect to={`/users/${this.props.user.username}`} />
+          ) : (
+            <Home />
+          )
+        )}/>
+
+        <Route exact path="/explore" render={() => (
+          this.props.loggedIn ? (
+            <Redirect to={`/users/${this.props.user.username}`} />
+          ) : (
+            <Explore />
+          )
+        )}/>
+
+        <Route exact path="/signup" render={() => (
+          this.props.loggedIn ? (
+            <Redirect to={`/users/${this.props.user.username}`} />
+          ) : (
+            <Signup 
+              handleRegister={this.props.handleRegister}
+            />
+          )
+        )}/>
+
         <Route 
           path="/login" 
           render={() => (
@@ -29,14 +43,16 @@ export class Frontpage extends Component {
               cookies={this.props.cookies}
               handleLogin={this.props.handleLogin}
               loggedIn={this.props.loggedIn}
+              user={this.props.user}
             />
           )} 
         />
-        <Route 
-          path="/dashboard" 
-          component={Dashboard} 
-        />
-      </div>
+
+        <Route render={() => (
+          <NotFound message="Page not found" />
+        )}/>
+
+      </Switch>
     )
   }
 }
