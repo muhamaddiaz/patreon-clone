@@ -2,8 +2,8 @@ import React from 'react'
 import {Link, Route, Redirect} from 'react-router-dom'
 import styled from 'styled-components'
 
-
 import PatreonHello from '../assets/img/patreon-hero-illustration.png'
+import Alert from './Fragments/Alert'
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,6 +80,14 @@ class Login extends React.Component {
                   <p>Welcome to patreon</p>
                   <form action="" onSubmit={this.props.handleLogin.bind(this, this.state)}>
                     <div style={{width: '80%'}} className="text-center">
+                      {
+                        this.props.isError && 
+                        (
+                          <Alert status="danger">
+                            <span>Username and password not <b>registered!</b></span>
+                          </Alert>
+                        )
+                      }
                       <Input placeholder="Username" name="username" onChange={this.handleChange.bind(this)} required />
                       <Input type="password" name="password" placeholder="Password" onChange={this.handleChange.bind(this)} required />
                       <div className="text-right m-3">

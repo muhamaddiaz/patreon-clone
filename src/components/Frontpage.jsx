@@ -5,6 +5,8 @@ import Signup from './Signup'
 import Login from './Login'
 import Home from './Home'
 import NotFound from './Notfound'
+import Dashboard from './Dashboard'
+import Mainpage from './Mainpage'
 
 export class Frontpage extends Component {
   render() {
@@ -32,6 +34,7 @@ export class Frontpage extends Component {
           ) : (
             <Signup 
               handleRegister={this.props.handleRegister}
+              isError={this.props.isError}
             />
           )
         )}/>
@@ -43,12 +46,21 @@ export class Frontpage extends Component {
               cookies={this.props.cookies}
               handleLogin={this.props.handleLogin}
               loggedIn={this.props.loggedIn}
+              isError={this.props.isError}
               user={this.props.user}
             />
           )} 
         />
 
-        <Route render={() => (
+        <Route path="/dashboard" component={Dashboard}/>
+        <Route path="/users/:username" render={({match}) => (
+          <Mainpage 
+            pathParam={match.params.username} 
+            cookies={this.props.cookies} 
+            user={this.props.user} />
+        )} />
+
+        <Route exact render={() => (
           <NotFound message="Page not found" />
         )}/>
 

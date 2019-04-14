@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import PatreonTop from '../assets/img/step3-top.svg'
 import PatreonBottom from '../assets/img/step3-bottom.svg'
 
+import Alert from './Fragments/Alert'
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,24 +86,32 @@ class Signup extends React.Component {
               <p>Join with patreon</p>
               <form action="" onSubmit={this.props.handleRegister.bind(this, this.state)}>
                 <div style={{width: '80%'}} className="text-left">
+                  {
+                    this.props.isError && 
+                    (
+                      <Alert status="danger">
+                        <span>Username or email already taken!</span>
+                      </Alert>
+                    )
+                  }
                   <span>
                     <label htmlFor="">Your name</label>
-                    <Input onChange={this.handleChange.bind(this)} name="full_name" />
+                    <Input onChange={this.handleChange.bind(this)} name="full_name" required/>
                   </span>
                   <span>
                     <label htmlFor="">Username</label>
-                    <Input onChange={this.handleChange.bind(this)} name="username" />
+                    <Input onChange={this.handleChange.bind(this)} name="username" required/>
                   </span>
                   <span>
                     <label htmlFor="">Email</label>
-                    <Input onChange={this.handleChange.bind(this)} name="email" type="email" />
+                    <Input onChange={this.handleChange.bind(this)} name="email" type="email" required/>
                   </span>
                   <span>
                     <label htmlFor="">Password</label>
-                    <Input onChange={this.handleChange.bind(this)} name="password" type="password" />
+                    <Input onChange={this.handleChange.bind(this)} name="password" type="password" required/>
                   </span>
                   <span className="mb-3 mt-3">
-                    <input type="checkbox" name="term" id="term" />&nbsp;
+                    <input type="checkbox" name="term" id="term" required />&nbsp;
                     <label htmlFor="">Agree with all terms</label>
                   </span>
                   <br/>

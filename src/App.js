@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Frontpage from './components/Frontpage';
-import Creatorpage from './components/Creatorpage';
+// import Creatorpage from './components/Creatorpage';
 import {withCookies} from 'react-cookie';
 import axios from 'axios';
 import './App.css';
@@ -11,7 +11,7 @@ class App extends Component {
   state = {
     loggedIn: false,
     user: {},
-    redirect: false
+    isError: false
   }
 
   handleLogin = ({username, password}, e) => {
@@ -28,13 +28,19 @@ class App extends Component {
         this.setState({
           loggedIn: true,
           user: data.message,
-          redirect: true
+          isError: false
         })
       }).catch(err => {
         console.log("Error: " + err);
+        this.setState({
+          isError: true
+        })
       })
     }).catch(err => {
       console.log(err);
+      this.setState({
+        isError: true
+      })
     })
   }
 
@@ -44,7 +50,8 @@ class App extends Component {
     cookies.remove('token')
     this.setState({
       loggedIn: false,
-      user: {}
+      user: {},
+      isError: false
     })
   }
 
@@ -64,13 +71,19 @@ class App extends Component {
         this.setState({
           loggedIn: true,
           user: data.message,
-          redirect: true
+          isError: false
         })
       }).catch(err => {
         console.log("Error: " + err);
+        this.setState({
+          isError: true
+        })
       })
     }).catch(err => {
       console.log(err);
+      this.setState({
+        isError: true
+      })
     })
   }
 
@@ -100,15 +113,16 @@ class App extends Component {
       <Router>
         <React.Fragment>
           <Navbar loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
-          <Creatorpage 
+          {/* <Creatorpage 
             cookies={this.props.cookies}
             user={this.state.user}
-          />
+          /> */}
           <Frontpage 
             cookies={this.props.cookies}
             handleLogin={this.handleLogin}
             handleRegister={this.handleRegister}
             loggedIn={this.state.loggedIn}
+            isError={this.state.isError}
             user={this.state.user}
           />
         </React.Fragment>
