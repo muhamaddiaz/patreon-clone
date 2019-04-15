@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {FaSearch, FaCommentDots} from 'react-icons/fa'
+import {Dropdown} from 'react-bootstrap'
 import PatreonRae from '../assets/img/issa-rae.png'
-
 
 import styled from 'styled-components'
 
@@ -50,7 +50,11 @@ export class Navbar extends Component {
         </div>
         <ul style={this.getStyle.navbarMenu}>
           {this.props.loggedIn ? (
-            <LoggedInLink getStyle={this.getStyle} handleLogout={this.props.handleLogout} />
+            <LoggedInLink 
+              getStyle={this.getStyle} 
+              handleLogout={this.props.handleLogout} 
+              user={this.props.user}
+            />
           ) : (
             <NotLoggedInLink getStyle={this.getStyle} />
         )}
@@ -88,9 +92,35 @@ function LoggedInLink(props) {
       <NavLink to="/home" getStyle={props.getStyle}>
         <FaSearch />
       </NavLink>
-      <NavLink to="/home" getStyle={props.getStyle}>
-        <UserProfile handleLogout={props.handleLogout}/>
-      </NavLink>
+      <li>
+        <Dropdown>
+          <Dropdown.Toggle style={{
+            backgroundColor: 'white',
+            border: 'none',
+            color: 'white',
+            padding: '19px'}}>
+            <UserProfile />
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Header>
+              {props.user.username}
+            </Dropdown.Header>
+            <Dropdown.Divider />
+            <Dropdown.Item href="/">
+              My Page
+            </Dropdown.Item>
+            <Dropdown.Item href="/dashboard">
+              Dashboard
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item href="/" onClick={props.handleLogout}>
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </li>
+        
     </React.Fragment>
   )
 }

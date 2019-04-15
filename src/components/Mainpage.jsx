@@ -132,13 +132,21 @@ export class Mainpage extends Component {
                 </NavMenu>
                 <NavMenu>
                   <li>
-                    <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
+                    {
+                      this.props.user.username === this.props.pathParam &&
+                      <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
+                    }
                   </li>
                 </NavMenu>
               </div>
             </Nav>
             <div className="container">
-              <Route path={`/users/${this.props.pathParam}`} exact component={Overview} />
+              <Route path={`/users/${this.props.pathParam}`} exact render={() => (
+                <Overview 
+                  pathParam={this.props.pathParam} 
+                  user={this.props.user}
+                />
+              )} />
               <Route path={`/users/${this.props.pathParam}/posts`} component={Posts} />
               <Route path={`/users/${this.props.pathParam}/community`} component={Community} />
             </div>

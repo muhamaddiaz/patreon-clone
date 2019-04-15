@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+
+import { Modal, Button, Card } from 'react-bootstrap'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,7 +26,78 @@ const PatreonButton = styled.button`
 `
 
 export class Overview extends Component {
+
+  state = {
+    show: false,
+    post_title: '',
+    post_body: '',
+    posts: []
+  }
+
+  componentDidMount() {
+    axios.get(`http://localhost:8888/patreon-clone-api/api/posts?username=${this.props.pathParam}`)
+      .then(({data}) => {
+        this.setState({
+          posts: data.message
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  handleModal = () => {
+    this.setState((state) => ({
+      show: !state.show
+    }))
+  }
+
+  handleChange = (e) => {
+    let name = e.target.name
+    this.setState({
+      [name]: e.target.value
+    })
+  }
+
+  handleCreatePost = ({post_title, post_body}, e) => {
+    e.preventDefault()
+    const id_user = this.props.user.id
+    axios.post("http://localhost:8888/patreon-clone-api/api/posts", {
+      id_user,
+      post_title,
+      post_body
+    })
+      .then(() => {
+        axios.get(`http://localhost:8888/patreon-clone-api/api/posts?username=${this.props.pathParam}`)
+          .then(({data}) => {
+            this.setState({
+              posts: data.message,
+              show: false
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   render() {
+    const posts = this.state.posts.map((value) => {
+      return (
+        <Card className="mt-3">
+          <Card.Body>
+            <Card.Title>{value.post_title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{value.created_at}</Card.Subtitle>
+            <Card.Text>
+              {value.post_body}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      )
+    })
     return (
       <Wrapper>
         <div className="row">
@@ -49,16 +123,30 @@ export class Overview extends Component {
               </div>
             </a>
           </div>
-          <div className="col-md-6" style={{opacity: '.4'}}>
+          <div className="col-md-6" style={{opacity: '1'}}>
             <Recent>
-              <h6>Recent post by superduperdiaz</h6>
+              <h6>Recent post by {this.props.pathParam}</h6>
             </Recent>
-            <div className="card">
-              <div className="card-body text-center">
-                <h6 style={{color: 'grey'}}>You haven't posted anything yet!</h6>
-                <PatreonButton className="btn btn-danger">Make your first post</PatreonButton>
-              </div>
-            </div>
+            {
+              this.state.posts.length > 0 ? (
+                posts
+              ) : (
+                <div className="card">
+                  <div className="card-body text-center">
+                    <h6 style={{color: 'grey'}}>You haven't posted anything yet!</h6>
+                    {
+                      this.props.user.username === this.props.pathParam &&
+                      <PatreonButton 
+                        className="btn btn-danger" 
+                        onClick={this.handleModal}>
+                        Make your first post
+                      </PatreonButton>
+                    }
+                  </div>
+                </div>
+              )
+            }
+            
           </div>
           <div className="col-md-3">
             <a href="/edit/tiers" className="card text-center">
@@ -68,6 +156,29 @@ export class Overview extends Component {
             </a>
           </div>
         </div>
+
+        <Modal show={this.state.show} onHide={this.handleModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create Post</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form action="" method="POST" onSubmit={this.handleCreatePost.bind(this, this.state)}>
+              <div className="form-group">
+                <label htmlFor="Title" className="sr-only">Title</label>
+                <input type="text" className="form-control" onChange={this.handleChange} name="post_title" placeholder="Post Title"/>
+              </div>
+              <div className="form-group">
+                <textarea name="post_body" placeholder="Post Body" className="form-control" onChange={this.handleChange}>
+                </textarea>
+              </div>
+              <div className="form-group">
+                <Button variant="danger" type="submit">
+                  Create
+                </Button>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
       </Wrapper>
     )
   }
