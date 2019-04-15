@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 
 import { FaCommentDots } from 'react-icons/fa'
-import { Modal, Button, Card } from 'react-bootstrap'
+import { Modal, Button, Card, InputGroup, FormControl } from 'react-bootstrap'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,7 +32,9 @@ export class Overview extends Component {
     show: false,
     post_title: '',
     post_body: '',
-    posts: []
+    posts: [],
+    comments: [],
+    comment_body: ''
   }
 
   componentDidMount() {
@@ -58,7 +60,6 @@ export class Overview extends Component {
     this.setState({
       [name]: e.target.value
     })
-    console.log(this.state.post_title)
   }
 
   handleCreatePost = ({post_title, post_body}, e) => {
@@ -125,6 +126,54 @@ export class Overview extends Component {
     }
   }
 
+  handleFetchComments = (id, e) => {
+    axios.get(`http://localhost:8888/patreon-clone-api/api/comments/?post=${id}`)
+      .then(({data}) => {
+        this.setState({
+          comments: data.message
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          comments: []
+        })
+      })
+  }
+
+  handleCreateComment = (id, e) => {
+    e.preventDefault()
+    const id_post = id
+    const id_user = this.props.user.id
+    const comment_body = this.state.comment_body
+    axios.post(`http://localhost:8888/patreon-clone-api/api/comments/`, {
+      id_post,
+      id_user,
+      comment_body
+    })
+      .then(({data}) => {
+        this.setState(({comments}) => ({
+          comments: [...comments, {id: data.message, id_post, id_user, comment_body}]
+        }))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  handleDeleteComment = (id, e) => {
+    if(window.confirm("Are you sure? ")) {
+      axios.delete(`http://localhost:8888/patreon-clone-api/api/comments/${id}`)
+        .then(() => {
+          this.setState(({comments}) => ({
+            comments: comments.filter((value) => (
+              id !== value.id
+            ))
+          }))
+        })
+    }
+  }
+
   render() {
     const posts = this.state.posts.map((value) => {
       return (
@@ -136,7 +185,10 @@ export class Overview extends Component {
               <Card.Text>
                 {value.post_body}
               </Card.Text>
-              <Card.Link href={`#post${value.id}`} data-toggle="collapse">
+              <Card.Link 
+                href={`#post${value.id}`} 
+                data-toggle="collapse" 
+                onClick={this.handleFetchComments.bind(this, value.id)}>
                 <FaCommentDots />
                 &nbsp; comments
               </Card.Link>
@@ -145,8 +197,51 @@ export class Overview extends Component {
                 <Card.Link href={`#action${value.id}`} data-toggle="modal">action</Card.Link>
               }
               
-              <div id={`post${value.id}`} className="collapse">
-                hello {value.id}
+              <div id={`post${value.id}`} className="collapse mt-3" data-parent="#accordion">
+                {
+                  this.state.comments.length > 0 ? (
+                    this.state.comments.map((v) => (
+                      <Card key={v.id} className="mt-2">
+                        <Card.Body>
+                          <Card.Text>
+                            {v.comment_body}
+                          </Card.Text>
+                        </Card.Body>
+                        {
+                          this.props.user.id === v.id_user &&
+                          <Card.Footer>
+                            <Card.Link 
+                              href="#" 
+                              className="text-danger" 
+                              onClick={this.handleDeleteComment.bind(this, v.id)}>
+                              Delete Comment
+                            </Card.Link>
+                          </Card.Footer>
+                        }
+                      </Card>
+                    ))
+                  ) : (
+                    <p>no comments yet</p>
+                  )
+                }
+                
+                <form className="mt-2" action="" method="POST" onSubmit={this.handleCreateComment.bind(this, value.id)}>
+                  <InputGroup className="mb-3 mt-5">
+                    <FormControl
+                      placeholder="Comment on this post"
+                      aria-label="Comment on this post"
+                      aria-describedby="basic-addon2"
+                      onChange={this.handleChangePost}
+                      name="comment_body"
+                    />
+                    <InputGroup.Append>
+                      <Button variant="outline-danger" type="submit">
+                        <FaCommentDots />
+                        &nbsp; comment
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </form>
               </div>
             </Card.Body>
           </Card>
@@ -244,7 +339,9 @@ export class Overview extends Component {
             </Recent>
             {
               this.state.posts.length > 0 ? (
-                posts
+                <div id="accordion">
+                  {posts}
+                </div>
               ) : (
                 <div className="card">
                   <div className="card-body text-center">
@@ -283,7 +380,7 @@ export class Overview extends Component {
                 <input type="text" className="form-control" onChange={this.handleChange} name="post_title" placeholder="Post Title"/>
               </div>
               <div className="form-group">
-                <textarea name="post_body" placeholder="Post Body" className="form-control" onChange={this.handleChange}>
+                <textarea name="post_body" placeholder="Post Body" className="form-control" onChange={this.handleChangePost}>
                 </textarea>
               </div>
               <div className="form-group">
