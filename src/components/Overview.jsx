@@ -53,11 +53,12 @@ export class Overview extends Component {
     }))
   }
 
-  handleChange = (e) => {
+  handleChangePost = (e) => {
     let name = e.target.name
     this.setState({
       [name]: e.target.value
     })
+    console.log(this.state.post_title)
   }
 
   handleCreatePost = ({post_title, post_body}, e) => {
@@ -85,15 +86,50 @@ export class Overview extends Component {
       })
   }
 
-  handleDeletePost = () => {
-    
+  handleUpdatePost = (id, e) => {
+    e.preventDefault()
+    const {
+      post_title,
+      post_body
+    } = this.state
+    axios.put(`http://localhost:8888/patreon-clone-api/api/posts/${id}`, {
+      post_title,
+      post_body
+    }).then(() => {
+      axios.get(`http://localhost:8888/patreon-clone-api/api/posts?username=${this.props.pathParam}`)
+        .then(({data}) => {
+          this.setState({
+            posts: data.message,
+            show: false
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  handleDeletePost = (id, e) => {
+    if(window.confirm("Are you sure? ")) {
+      axios.delete(`http://localhost:8888/patreon-clone-api/api/posts/${id}`)
+        .then(() => {
+          this.setState(({posts}) => ({
+            posts: posts.filter((value) => (
+              id !== value.id
+            ))
+          }))
+        })
+    }
   }
 
   render() {
     const posts = this.state.posts.map((value) => {
       return (
-        <React.Fragment>
-          <Card className="mt-3" key={value.id}>
+        <React.Fragment key={value.id}>
+          <Card className="mt-3" >
             <Card.Body>
               <Card.Title>{value.post_title}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">{value.created_at}</Card.Subtitle>
@@ -104,7 +140,11 @@ export class Overview extends Component {
                 <FaCommentDots />
                 &nbsp; comments
               </Card.Link>
-              <Card.Link href={`#action${value.id}`} data-toggle="modal">action</Card.Link>
+              {
+                this.props.user.username === this.props.pathParam &&
+                <Card.Link href={`#action${value.id}`} data-toggle="modal">action</Card.Link>
+              }
+              
               <div id={`post${value.id}`} className="collapse">
                 hello {value.id}
               </div>
@@ -129,24 +169,24 @@ export class Overview extends Component {
                   </ul>
                   <div className="tab-content pt-4">
                     <div className="tab-pane container active" id={`updatepost${value.id}`}>
-                      <form action="">
+                      <form action="" method="POST" onSubmit={this.handleUpdatePost.bind(this, value.id)}>
                         <div className="form-group">
                           <label htmlFor="Title" className="sr-only">Title</label>
                           <input 
                             type="text" 
                             className="form-control" 
-                            onChange={this.handleChange} 
+                            onChange={this.handleChangePost} 
                             name="post_title" 
                             placeholder="Post Title"
-                            value={value.post_title}/>
+                            required/>
                         </div>
                         <div className="form-group">
                           <textarea 
                             name="post_body" 
                             placeholder="Post Body" 
                             className="form-control" 
-                            onChange={this.handleChange}>
-                            {value.post_body}
+                            onChange={this.handleChangePost}
+                            required>
                           </textarea>
                         </div>
                         <div className="form-group">
@@ -157,7 +197,11 @@ export class Overview extends Component {
                       </form>
                     </div>
                     <div className="tab-pane container fade" id={`deletepost${value.id}`}>
-                      <Button variant="danger" type="submit">
+                      <Button 
+                        variant="danger" 
+                        type="submit" 
+                        data-dismiss="modal"
+                        onClick={this.handleDeletePost.bind(this, value.id)}>
                         Delete Post
                       </Button>
                     </div>
