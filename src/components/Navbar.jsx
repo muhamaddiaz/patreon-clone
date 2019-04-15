@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import {FaSearch, FaCommentDots} from 'react-icons/fa'
+      import {FaSearch, FaCommentDots} from 'react-icons/fa'
 import {Dropdown} from 'react-bootstrap'
 import PatreonRae from '../assets/img/issa-rae.png'
 

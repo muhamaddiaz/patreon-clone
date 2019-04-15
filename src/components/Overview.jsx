@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
+import { FaCommentDots } from 'react-icons/fa'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 const Wrapper = styled.div`
@@ -84,18 +85,88 @@ export class Overview extends Component {
       })
   }
 
+  handleDeletePost = () => {
+    
+  }
+
   render() {
     const posts = this.state.posts.map((value) => {
       return (
-        <Card className="mt-3">
-          <Card.Body>
-            <Card.Title>{value.post_title}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">{value.created_at}</Card.Subtitle>
-            <Card.Text>
-              {value.post_body}
-            </Card.Text>
-          </Card.Body>
-        </Card>
+        <React.Fragment>
+          <Card className="mt-3" key={value.id}>
+            <Card.Body>
+              <Card.Title>{value.post_title}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{value.created_at}</Card.Subtitle>
+              <Card.Text>
+                {value.post_body}
+              </Card.Text>
+              <Card.Link href={`#post${value.id}`} data-toggle="collapse">
+                <FaCommentDots />
+                &nbsp; comments
+              </Card.Link>
+              <Card.Link href={`#action${value.id}`} data-toggle="modal">action</Card.Link>
+              <div id={`post${value.id}`} className="collapse">
+                hello {value.id}
+              </div>
+            </Card.Body>
+          </Card>
+
+          <div className="modal" id={`action${value.id}`}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h4 className="modal-title">Action</h4>
+                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div className="modal-body">
+                  <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                      <a className="nav-link active" data-toggle="tab" href={`#updatepost${value.id}`}>Update Post</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" data-toggle="tab" href={`#deletepost${value.id}`}>Delete Post</a>
+                    </li>
+                  </ul>
+                  <div className="tab-content pt-4">
+                    <div className="tab-pane container active" id={`updatepost${value.id}`}>
+                      <form action="">
+                        <div className="form-group">
+                          <label htmlFor="Title" className="sr-only">Title</label>
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            onChange={this.handleChange} 
+                            name="post_title" 
+                            placeholder="Post Title"
+                            value={value.post_title}/>
+                        </div>
+                        <div className="form-group">
+                          <textarea 
+                            name="post_body" 
+                            placeholder="Post Body" 
+                            className="form-control" 
+                            onChange={this.handleChange}>
+                            {value.post_body}
+                          </textarea>
+                        </div>
+                        <div className="form-group">
+                          <Button variant="danger" type="submit">
+                            Update
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="tab-pane container fade" id={`deletepost${value.id}`}>
+                      <Button variant="danger" type="submit">
+                        Delete Post
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
       )
     })
     return (
