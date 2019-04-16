@@ -110,7 +110,7 @@ function LoggedInLink(props) {
             <Dropdown.Item href="/">
               My Page
             </Dropdown.Item>
-            <Dropdown.Item href="/dashboard">
+            <Dropdown.Item href={`/users/${props.user.username}/dashboard`}>
               Dashboard
             </Dropdown.Item>
             <Dropdown.Divider />

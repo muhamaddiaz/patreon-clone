@@ -52,7 +52,13 @@ export class Frontpage extends Component {
           )} 
         />
 
-        <Route path="/dashboard" component={Dashboard}/>
+        <Route path="/users/:username/dashboard" render={({match}) => (
+          <Dashboard 
+            pathParam={match.params.username}
+            handleUpdate={this.props.handleUpdate}
+            user={this.props.user}
+          />
+        )}/>
         <Route path="/users/:username" render={({match}) => (
           <Mainpage 
             pathParam={match.params.username} 

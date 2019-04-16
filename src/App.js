@@ -86,6 +86,37 @@ class App extends Component {
     })
   }
 
+  handleUpdate = (data, e) => {
+    e.preventDefault()
+    const {cookies} = this.props;
+    axios.put('http://localhost:8888/patreon-clone-api/api/auth/update', {
+      oldusername: data.oldusername,
+      username: data.username,
+      creating: data.creating
+    }).then(({data}) => {
+      cookies.set('token', data.message.token)
+      axios.post('http://localhost:8888/patreon-clone-api/api/auth/decode', {
+        token: cookies.get('token')
+      }).then(({data}) => {
+        this.setState({
+          loggedIn: true,
+          user: data.message,
+          isError: false
+        })
+      }).catch(err => {
+        console.log("Error: " + err);
+        this.setState({
+          isError: true
+        })
+      })
+    }).catch(err => {
+      console.log(err);
+      this.setState({
+        isError: true
+      })
+    })
+  }
+
   componentDidMount() {
     const {cookies} = this.props;
     const token = cookies.get('token');
@@ -124,6 +155,7 @@ class App extends Component {
             cookies={this.props.cookies}
             handleLogin={this.handleLogin}
             handleRegister={this.handleRegister}
+            handleUpdate={this.handleUpdate}
             loggedIn={this.state.loggedIn}
             isError={this.state.isError}
             user={this.state.user}

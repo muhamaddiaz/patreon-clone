@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 
 import { FaCommentDots } from 'react-icons/fa'
@@ -34,7 +35,8 @@ export class Overview extends Component {
     post_body: '',
     posts: [],
     comments: [],
-    comment_body: ''
+    comment_body: '',
+    refresh: ''
   }
 
   componentDidMount() {
@@ -145,6 +147,7 @@ export class Overview extends Component {
     e.preventDefault()
     const id_post = id
     const id_user = this.props.user.id
+    const username = this.props.user.username
     const comment_body = this.state.comment_body
     axios.post(`http://localhost:8888/patreon-clone-api/api/comments/`, {
       id_post,
@@ -153,7 +156,7 @@ export class Overview extends Component {
     })
       .then(({data}) => {
         this.setState(({comments}) => ({
-          comments: [...comments, {id: data.message, id_post, id_user, comment_body}]
+          comments: [...comments, {id: data.message, id_post, id_user, comment_body, username}]
         }))
       })
       .catch((err) => {
@@ -172,6 +175,18 @@ export class Overview extends Component {
           }))
         })
     }
+  }
+
+  handleRefresh = () => {
+    axios.get(`http://localhost:8888/patreon-clone-api/api/posts?username=${this.props.pathParam}`)
+      .then(({data}) => {
+        this.setState({
+          posts: data.message
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   render() {
@@ -206,18 +221,24 @@ export class Overview extends Component {
                           <Card.Text>
                             {v.comment_body}
                           </Card.Text>
-                        </Card.Body>
+                          <Card.Text className="text-muted" style={{fontSize: '.8rem'}}>
+                            Commented by &nbsp;
+                            <Link to={`/users/${v.username}`} onClick={this.handleRefresh}>
+                              {v.username}
+                            </Link>
+                          </Card.Text>
                         {
                           this.props.user.id === v.id_user &&
-                          <Card.Footer>
                             <Card.Link 
                               href="#" 
                               className="text-danger" 
+                              style={{fontSize: '.8rem'}}
                               onClick={this.handleDeleteComment.bind(this, v.id)}>
                               Delete Comment
                             </Card.Link>
-                          </Card.Footer>
                         }
+                        </Card.Body>
+                        
                       </Card>
                     ))
                   ) : (
