@@ -103,7 +103,13 @@ export class Mainpage extends Component {
                           <img src={PatreonRae} alt="profile" style={{width: '120px'}} />
                         </div>
                         <div className="col-md-10">
-                        <ProfileText>{this.props.pathParam} is creating programming tutorial</ProfileText> 
+                        {
+                          this.props.user.creating !== null ? (
+                            <ProfileText>{this.props.user.creating}</ProfileText>
+                          ) : (
+                            <ProfileText>Edit this text on dashboard menu</ProfileText>
+                          )
+                        } 
                         </div>             
                       </div>
                     </Profile>

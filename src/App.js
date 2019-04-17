@@ -91,18 +91,20 @@ class App extends Component {
     const {cookies} = this.props;
     axios.put('http://localhost:8888/patreon-clone-api/api/auth/update', {
       oldusername: data.oldusername,
-      username: data.username,
+      full_name: data.full_name,
       creating: data.creating
     }).then(({data}) => {
       cookies.set('token', data.message.token)
       axios.post('http://localhost:8888/patreon-clone-api/api/auth/decode', {
         token: cookies.get('token')
       }).then(({data}) => {
+        console.log(data.message)
         this.setState({
           loggedIn: true,
           user: data.message,
           isError: false
         })
+        console.log(cookies.get('token'))
       }).catch(err => {
         console.log("Error: " + err);
         this.setState({

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Footer from './Footer'
 
 import {Card, Form, Row, Col, Button} from 'react-bootstrap'
-import {Redirect, Route} from 'react-router-dom'
 
 const ContextText = styled.div`
   margin: 15px 0;
@@ -17,7 +16,7 @@ export class Dashboard extends Component {
   
   state = {
     oldusername: this.props.pathParam,
-    username: '',
+    full_name: '',
     create: '',
     creating: ''
   }
@@ -36,61 +35,52 @@ export class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props.pathParam)
-    console.log(this.props.user.username)
     return (
       <React.Fragment>
-        <Route exact path={`/users/${this.props.user.username}/dashboard`} render={() => (
-          this.props.pathParam !== this.props.user.username ? (
-            <Redirect to={`/users/${this.props.user.username}`} />
-          ) : (
-            <div>
-              <div className="container pt-5">
-                <ul className="nav nav-tabs mt-5">
-                  <li className="nav-item">
-                    <a className="nav-link active" data-toggle="tab" href="#home">About</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#menu1">Tiers</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#menu2">Goals</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#menu3">Thanks</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#menu4">Payments</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="tab" href="#menu5">Preview</a>
-                  </li>
-                </ul>
+        <div>
+          <div className="container pt-5">
+            <ul className="nav nav-tabs mt-5">
+              <li className="nav-item">
+                <a className="nav-link active" data-toggle="tab" href="#home">About</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" data-toggle="tab" href="#menu1">Tiers</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" data-toggle="tab" href="#menu2">Goals</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" data-toggle="tab" href="#menu3">Thanks</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" data-toggle="tab" href="#menu4">Payments</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" data-toggle="tab" href="#menu5">Preview</a>
+              </li>
+            </ul>
 
-                <div className="tab-content">
-                  <div className="tab-pane container active" id="home">
-                    <About 
-                      handleChange={this.handleChange}
-                      handleUpdate={this.props.handleUpdate}
-                      handleChecked={this.handleChecked}
-                      handleRadioChange={this.handleRadioChange}
-                      data={this.state}
-                      user={this.props.user}
-                    />
-                  </div>
-                  <div className="tab-pane container fade" id="menu1"><h1>Coming Soon!</h1></div>
-                  <div className="tab-pane container fade" id="menu2"><h1>Coming Soon!</h1></div>
-                  <div className="tab-pane container fade" id="menu3"><h1>Coming Soon!</h1></div>
-                  <div className="tab-pane container fade" id="menu4"><h1>Coming Soon!</h1></div>
-                  <div className="tab-pane container fade" id="menu5"><h1>Coming Soon!</h1></div>
-                </div>
+            <div className="tab-content">
+              <div className="tab-pane container active" id="home">
+                <About 
+                  handleChange={this.handleChange}
+                  handleUpdate={this.props.handleUpdate}
+                  handleChecked={this.handleChecked}
+                  handleRadioChange={this.handleRadioChange}
+                  data={this.state}
+                  user={this.props.user}
+                />
               </div>
-              <Footer />
+              <div className="tab-pane container fade p-5" id="menu1"><h1>Coming Soon!</h1></div>
+              <div className="tab-pane container fade p-5" id="menu2"><h1>Coming Soon!</h1></div>
+              <div className="tab-pane container fade p-5" id="menu3"><h1>Coming Soon!</h1></div>
+              <div className="tab-pane container fade p-5" id="menu4"><h1>Coming Soon!</h1></div>
+              <div className="tab-pane container fade p-5" id="menu5"><h1>Coming Soon!</h1></div>
             </div>
-          )
-        )}/>
+          </div>
+          <Footer />
+        </div>
       </React.Fragment>
-      
     )
   }
 }
@@ -109,13 +99,13 @@ function About(props) {
               <Card.Body>
                 <Form.Group as={Row} controlId="formHorizontalEmail">
                   <Form.Label column sm={4}>
-                    <b>Name of Patreon page</b> <br/>
+                    <b>Your full name</b> <br/>
                     <span className="text-muted">Required</span>
                   </Form.Label>
                   <Col sm={8}>
                     <Form.Control 
                       type="text" 
-                      name="username" 
+                      name="full_name" 
                       onChange={props.handleChange} 
                       className="p-4" 
                       required />
@@ -144,20 +134,20 @@ function About(props) {
                     <Col sm={8}>
                       <Form.Check
                         type="radio"
-                        label={`${props.data.username} is creating ${props.data.create}`}
+                        label={`${props.user.username} is creating ${props.data.create}`}
                         onChange={props.handleChange}
-                        value={`${props.data.username} is creating ${props.data.create}`}
+                        value={`${props.user.username} is creating ${props.data.create}`}
                         name="creating"
                         id="creatingRadios1"
                         required
                       />
                       <Form.Check
                         type="radio"
-                        label={`${props.data.username} are creating ${props.data.create}`}
+                        label={`${props.user.username} are creating ${props.data.create}`}
                         onChange={props.handleChange}
                         name="creating"
                         id="creatingRadios2"
-                        value={`${props.data.username} are creating ${props.data.create}`}
+                        value={`${props.user.username} are creating ${props.data.create}`}
                         required
                       />
                     </Col>
