@@ -398,7 +398,7 @@ export class Overview extends Component {
             <form action="" method="POST" onSubmit={this.handleCreatePost.bind(this, this.state)}>
               <div className="form-group">
                 <label htmlFor="Title" className="sr-only">Title</label>
-                <input type="text" className="form-control" onChange={this.handleChange} name="post_title" placeholder="Post Title"/>
+                <input type="text" className="form-control" onChange={this.handleChangePost} name="post_title" placeholder="Post Title"/>
               </div>
               <div className="form-group">
                 <textarea name="post_body" placeholder="Post Body" className="form-control" onChange={this.handleChangePost}>
