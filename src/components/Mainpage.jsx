@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import PatreonRae from '../assets/img/issa-rae.png'
+import Nature from '../assets/img/background.jpg'
 
 import Footer from './Footer'
 import Posts from './Posts'
@@ -14,6 +15,7 @@ import axios from 'axios';
 const BackgroundCover = styled.div`
   width: 100%;
   height: 70vh;
+  background-image: url(${Nature});
 `
 
 const Wrapper = styled.div`
@@ -38,7 +40,7 @@ const ProfileText = styled.h2`
 const CoverFade = styled.div`
   width: 100%;
   height: 70vh;
-  background-image: linear-gradient(transparent 50%, grey);
+  background-image: linear-gradient(transparent 30%, black);
 `
 
 const Nav = styled.nav`
@@ -83,7 +85,6 @@ export class Mainpage extends Component {
           isFound: true,
           localUser: data.message
         })
-        console.log(this.state.localUser)
       })
       .catch((err) => {
         console.log(err)
@@ -140,12 +141,15 @@ export class Mainpage extends Component {
                   </li>
                 </NavMenu>
                 <NavMenu>
-                  <li>
+                  {
+                    (this.props.user.username !== this.props.pathParam) &&
+                    <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
+                  }
+                  {/* <li>
                     {
                       this.props.user.username === this.props.pathParam &&
-                      <PatreonButton className="btn btn-danger">Become a Patreon</PatreonButton>
                     }
-                  </li>
+                  </li> */}
                 </NavMenu>
               </div>
             </Nav>
@@ -156,7 +160,12 @@ export class Mainpage extends Component {
                   user={this.props.user}
                 />
               )} />
-              <Route path={`/users/${this.props.pathParam}/posts`} component={Posts} />
+              <Route path={`/users/${this.props.pathParam}/posts`} render={() => (
+                <Posts 
+                  pathParam={this.props.pathParam}
+                  user={this.props.user}
+                />
+              )} />
               <Route path={`/users/${this.props.pathParam}/community`} component={Community} />
             </div>
             <Footer />
