@@ -72,15 +72,18 @@ const PatreonButton = styled.button`
 export class Mainpage extends Component {
 
   state = {
-    isFound: false
+    isFound: false,
+    localUser: []
   }
 
   componentDidMount() {
     axios.get(`http://localhost:8888/patreon-clone-api/api/users/${this.props.pathParam}`)
       .then(({data}) => {
         this.setState({
-          isFound: true
+          isFound: true,
+          localUser: data.message
         })
+        console.log(this.state.localUser)
       })
       .catch((err) => {
         console.log(err)
@@ -104,8 +107,8 @@ export class Mainpage extends Component {
                         </div>
                         <div className="col-md-10">
                         {
-                          this.props.user.creating !== null ? (
-                            <ProfileText>{this.props.user.creating}</ProfileText>
+                          this.state.localUser.creating ? (
+                            <ProfileText>{this.state.localUser.creating}</ProfileText>
                           ) : (
                             <ProfileText>Edit this text on dashboard menu</ProfileText>
                           )
