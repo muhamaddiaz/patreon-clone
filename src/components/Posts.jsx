@@ -154,6 +154,7 @@ export class Posts extends Component {
   }
 
   handleDeleteComment = (id, e) => {
+    e.preventDefault()
     if(window.confirm("Are you sure? ")) {
       axios.delete(`http://localhost:8888/patreon-clone-api/api/comments/${id}`)
         .then(() => {

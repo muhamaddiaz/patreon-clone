@@ -165,6 +165,7 @@ export class Overview extends Component {
   }
 
   handleDeleteComment = (id, e) => {
+    e.preventDefault()
     if(window.confirm("Are you sure? ")) {
       axios.delete(`http://localhost:8888/patreon-clone-api/api/comments/${id}`)
         .then(() => {
@@ -200,9 +201,9 @@ export class Overview extends Component {
               <Card.Text>
                 {value.post_body}
               </Card.Text>
-              <Card.Link 
-                href={`#post${value.id}`} 
-                data-toggle="collapse" 
+              <Card.Link
+                href={`#post${value.id}`}
+                data-toggle="collapse"
                 onClick={this.handleFetchComments.bind(this, value.id)}>
                 <FaCommentDots />
                 &nbsp; comments
@@ -211,7 +212,7 @@ export class Overview extends Component {
                 this.props.user.username === this.props.pathParam &&
                 <Card.Link href={`#action${value.id}`} data-toggle="modal">action</Card.Link>
               }
-              
+
               <div id={`post${value.id}`} className="collapse mt-3" data-parent="#accordion">
                 {
                   this.state.comments.length > 0 ? (
@@ -229,23 +230,23 @@ export class Overview extends Component {
                           </Card.Text>
                         {
                           this.props.user.id === v.id_user &&
-                            <Card.Link 
-                              href="#" 
-                              className="text-danger" 
+                            <Card.Link
+                              href="#"
+                              className="text-danger"
                               style={{fontSize: '.8rem'}}
                               onClick={this.handleDeleteComment.bind(this, v.id)}>
                               Delete Comment
                             </Card.Link>
                         }
                         </Card.Body>
-                        
+
                       </Card>
                     ))
                   ) : (
                     <p>no comments yet</p>
                   )
                 }
-                
+
                 <form className="mt-2" action="" method="POST" onSubmit={this.handleCreateComment.bind(this, value.id)}>
                   <InputGroup className="mb-3 mt-5">
                     <FormControl
@@ -288,19 +289,19 @@ export class Overview extends Component {
                       <form action="" method="POST" onSubmit={this.handleUpdatePost.bind(this, value.id)}>
                         <div className="form-group">
                           <label htmlFor="Title" className="sr-only">Title</label>
-                          <input 
-                            type="text" 
-                            className="form-control" 
-                            onChange={this.handleChangePost} 
-                            name="post_title" 
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={this.handleChangePost}
+                            name="post_title"
                             placeholder="Post Title"
                             required/>
                         </div>
                         <div className="form-group">
-                          <textarea 
-                            name="post_body" 
-                            placeholder="Post Body" 
-                            className="form-control" 
+                          <textarea
+                            name="post_body"
+                            placeholder="Post Body"
+                            className="form-control"
                             onChange={this.handleChangePost}
                             required>
                           </textarea>
@@ -313,9 +314,9 @@ export class Overview extends Component {
                       </form>
                     </div>
                     <div className="tab-pane container fade" id={`deletepost${value.id}`}>
-                      <Button 
-                        variant="danger" 
-                        type="submit" 
+                      <Button
+                        variant="danger"
+                        type="submit"
                         data-dismiss="modal"
                         onClick={this.handleDeletePost.bind(this, value.id)}>
                         Delete Post
@@ -336,13 +337,13 @@ export class Overview extends Component {
             <div className="card">
               <div className="card-body">
                 <p className="card-title">
-                  <b>0</b> 
-                  <br /> 
+                  <b>0</b>
+                  <br />
                   patrons
                 </p>
                 <p className="card-title">
-                  <b>$0</b> 
-                  <br /> 
+                  <b>$0</b>
+                  <br />
                   per month . public
                 </p>
                 <button className="text-danger btn">Share</button>
@@ -369,8 +370,8 @@ export class Overview extends Component {
                     <h6 style={{color: 'grey'}}>You haven't posted anything yet!</h6>
                     {
                       this.props.user.username === this.props.pathParam &&
-                      <PatreonButton 
-                        className="btn btn-danger" 
+                      <PatreonButton
+                        className="btn btn-danger"
                         onClick={this.handleModal}>
                         Make your first post
                       </PatreonButton>
@@ -379,7 +380,7 @@ export class Overview extends Component {
                 </div>
               )
             }
-            
+
           </div>
           <div className="col-md-3">
             <a href="/edit/tiers" className="card text-center">
