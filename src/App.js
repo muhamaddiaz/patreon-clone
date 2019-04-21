@@ -45,6 +45,7 @@ class App extends Component {
   }
 
   handleLogout = (e) => {
+    e.preventDefault()
     const {cookies} = this.props
     cookies.remove('token')
     this.setState({
@@ -144,16 +145,16 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <Navbar 
-            loggedIn={this.state.loggedIn} 
-            handleLogout={this.handleLogout} 
-            user={this.state.user} 
+          <Navbar
+            loggedIn={this.state.loggedIn}
+            handleLogout={this.handleLogout}
+            user={this.state.user}
           />
-          {/* <Creatorpage 
+          {/* <Creatorpage
             cookies={this.props.cookies}
             user={this.state.user}
           /> */}
-          <Frontpage 
+          <Frontpage
             cookies={this.props.cookies}
             handleLogin={this.handleLogin}
             handleRegister={this.handleRegister}

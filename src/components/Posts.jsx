@@ -223,24 +223,23 @@ export class Posts extends Component {
                     <p>no comments yet</p>
                   )
                 }
-
-                <form className="mt-2" action="" method="POST" onSubmit={this.handleCreateComment.bind(this, value.id)}>
-                  <InputGroup className="mb-3 mt-5">
-                    <FormControl
-                      placeholder="Comment on this post"
-                      aria-label="Comment on this post"
-                      aria-describedby="basic-addon2"
-                      onChange={this.handleChangePost}
-                      name="comment_body"
-                    />
-                    <InputGroup.Append>
-                      <Button variant="outline-danger" type="submit">
-                        <FaCommentDots />
-                        &nbsp; comment
-                      </Button>
-                    </InputGroup.Append>
-                  </InputGroup>
-                </form>
+                  <form className="mt-2" action="" method="POST" onSubmit={this.handleCreateComment.bind(this, value.id)}>
+                    <InputGroup className="mb-3 mt-5">
+                      <FormControl
+                        placeholder="Comment on this post"
+                        aria-label="Comment on this post"
+                        aria-describedby="basic-addon2"
+                        onChange={this.handleChangePost}
+                        name="comment_body"
+                      />
+                      <InputGroup.Append>
+                        <Button variant="outline-danger" type="submit">
+                          <FaCommentDots />
+                          &nbsp; comment
+                        </Button>
+                      </InputGroup.Append>
+                    </InputGroup>
+                  </form>
               </div>
             </Card.Body>
           </Card>
